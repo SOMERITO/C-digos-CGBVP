@@ -1,2 +1,2 @@
-# C-digos-CGBVP
+# Codigos-CGBVP
 Se utilizará para la verificación de códigos del CGBVP

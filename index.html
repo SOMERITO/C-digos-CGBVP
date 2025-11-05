@@ -1,1 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Claves CGBVP</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff5f5;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+    }
+    input {
+      width: 80%;
+      padding: 10px;
+      border: 2px solid #c0392b;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+    .item {
+      background: white;
+      border-left: 8px solid #c0392b;
+      margin: 10px auto;
+      padding: 10px;
+      width: 80%;
+      border-radius: 8px;
+      text-align: left;
+    }
+    .codigo {
+      font-weight: bold;
+      color: #c0392b;
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🚒 Claves CGBVP</h1>
+  <input type="text" id="busqueda" placeholder="Buscar código o descripción..." />
+
+  <div id="lista"></div>
+
+  <script>
+    const claves = [
+      { codigo: "10.01", descripcion: "Adelante" },
+      { codigo: "10.02", descripcion: "Operador de radio identifíquese" },
+      { codigo: "10.03", descripcion: "Cambio frecuencia radial" },
+      { codigo: "10.04", descripcion: "Llame por teléfono" },
+      { codigo: "10.05", descripcion: "Comprendido" },
+    ];
+
+    const input = document.getElementById("busqueda");
+    const lista = document.getElementById("lista");
+
+    function mostrarClaves(filtradas) {
+      lista.innerHTML = "";
+      filtradas.forEach(c => {
+        const div = document.createElement("div");
+        div.classList.add("item");
+        div.innerHTML = `<span class="codigo">${c.codigo}</span>${c.descripcion}`;
+        lista.appendChild(div);
+      });
+    }
+
+    input.addEventListener("input", () => {
+      const texto = input.value.toLowerCase();
+      const filtradas = claves.filter(c =>
+        c.descripcion.toLowerCase().includes(texto) ||
+        c.codigo.includes(texto)
+      );
+      mostrarClaves(filtradas);
+    });
+
+    mostrarClaves(claves);
+  </script>
+</body>
+</html>
 

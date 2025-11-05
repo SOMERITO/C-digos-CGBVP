@@ -1,217 +1,199 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title> 🚒 Claves CGBVP</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #fff5f5;
-      text-align: center;
-      margin: 0;
-      padding: 20px;
-    }
-    input {
-      width: 80%;
-      padding: 10px;
-      border: 2px solid #c0392b;
-      border-radius: 10px;
-      margin-bottom: 15px;
-    }
-    .item {
-      background: white;
-      border-left: 8px solid #c0392b;
-      margin: 10px auto;
-      padding: 10px;
-      width: 80%;
-      border-radius: 8px;
-      text-align: left;
-    }
-    .codigo {
-      font-weight: bold;
-      color: #c0392b;
-      margin-right: 10px;
-    }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🚒 Claves CGBVP</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #fff5f5;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #c0392b;
+        }
+        input {
+            width: 80%;
+            padding: 10px;
+            border: 2px solid #c0392b;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-sizing: border-box; /* Asegura que el padding no cambie el ancho total */
+        }
+        /* Estilos para la barra de filtros */
+        #filtros {
+            margin-bottom: 20px;
+            display: flex; 
+            flex-wrap: wrap; 
+            justify-content: center;
+            max-width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        #filtros button {
+            background-color: #eee;
+            color: #333;
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+            margin: 4px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
+            font-size: 0.85em;
+            white-space: nowrap; /* Evita que el texto del botón se corte */
+        }
+        /* Estilo para resaltar el botón activo */
+        #filtros button.active,
+        #filtros button:hover {
+            background-color: #c0392b;
+            color: white;
+        }
+
+        .item {
+            background: white;
+            border-left: 8px solid #c0392b;
+            margin: 10px auto;
+            padding: 10px;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 8px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+        }
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        .codigo {
+            font-weight: bold;
+            color: #c0392b;
+            margin-right: 10px;
+            font-size: 1.1em;
+        }
+        .descripcion {
+            font-size: 1em;
+            flex-grow: 1;
+        }
+        .categoria-tag {
+            font-size: 0.7em;
+            color: #666;
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+    </style>
 </head>
 <body>
-  <h1>🚒 Claves CGBVP</h1>
-  <input type="text" id="busqueda" placeholder="Buscar código o descripción..." />
+    <h1>🚒 Claves CGBVP</h1>
+    <input type="text" id="busqueda" placeholder="Buscar código o descripción..." />
 
-  <div id="lista"></div>
+    <div id="filtros">
+        <button data-filtro="Todos">Todos</button>
+        <button data-filtro="Servicios">Servicios</button>
+        <button data-filtro="Emergencias">Emergencias</button>
+        <button data-filtro="Especiales">Especiales</button>
+        <button data-filtro="Jerarquías">Jerarquías</button>
+        <button data-filtro="Compañía">Compañía</button>
+        <button data-filtro="Nacional">Nacional</button>
+        <button data-filtro="Locales">Locales</button>
+        <button data-filtro="Personal">Personal</button>
+    </div>
+    
+    <div id="lista"></div>
 
-  <script>
-    const claves = [
-      
-  { "codigo": "10.01", "descripcion": "Adelante" },
-  { "codigo": "10.02", "descripcion": "Operador de radio identifíquese" },
-  { "codigo": "10.03", "descripcion": "Cambie frecuencia radial" },
-  { "codigo": "10.04", "descripcion": "Llame por teléfono" },
-  { "codigo": "10.05", "descripcion": "Comprendido" },
-  { "codigo": "10.06", "descripcion": "Afirmativo" },
-  { "codigo": "10.07", "descripcion": "Se dirige / Diríjase" },
-  { "codigo": "10.08", "descripcion": "Repita mensaje" },
-  { "codigo": "10.09", "descripcion": "Negativo" },
-  { "codigo": "10.10", "descripcion": "Comunicación con" },
-  { "codigo": "10.11", "descripcion": "Al mando de la unidad" },
-  { "codigo": "10.12", "descripcion": "Siga en escucha" },
-  { "codigo": "10.13", "descripcion": "Derrotero" },
-  { "codigo": "10.14", "descripcion": "Se consulta" },
-  { "codigo": "10.15", "descripcion": "Efectivos" },
-  { "codigo": "10.16", "descripcion": "Indique magnitud" },
-  { "codigo": "10.17", "descripcion": "Informe novedades" },
-  { "codigo": "10.18", "descripcion": "Dirección" },
-  { "codigo": "10.19", "descripcion": "Ubicación" },
-  { "codigo": "10.20", "descripcion": "En el lugar" },
-  { "codigo": "10.21", "descripcion": "Línea privada" },
-  { "codigo": "10.22", "descripcion": "En sintonía" },
-  { "codigo": "10.23", "descripcion": "Se retira del lugar" },
-  { "codigo": "10.24", "descripcion": "Urgente" },
-  { "codigo": "10.25", "descripcion": "Emergencia confirmada" },
-  { "codigo": "10.26", "descripcion": "En servicio" },
-  { "codigo": "10.27", "descripcion": "Disponible" },
-  { "codigo": "10.28", "descripcion": "Emergencia cancelada" },
-  { "codigo": "10.29", "descripcion": "Continue en alerta" },
-  { "codigo": "10.30", "descripcion": "Ingresa su base" },
-  { "codigo": "10.31", "descripcion": "Traslado / transporte" },
-  { "codigo": "10.32", "descripcion": "Emergencia en progreso" },
-  { "codigo": "10.33", "descripcion": "Emergencia controlada" },
-  { "codigo": "10.34", "descripcion": "Tome precauciones" },
-  { "codigo": "10.35", "descripcion": "Requiere policía" },
-  { "codigo": "10.36", "descripcion": "Fuera de sintonía" },
-  { "codigo": "10.37", "descripcion": "Requiere empresa eléctrica" },
-  { "codigo": "10.38", "descripcion": "Abastecimiento de..." },
-  { "codigo": "10.39", "descripcion": "Fuera de servicio" },
-  { "codigo": "10.40", "descripcion": "Espere ordenes" },
-  { "codigo": "10.41", "descripcion": "Herido" },
-  { "codigo": "10.42", "descripcion": "Muerto" },
-  { "codigo": "10.43", "descripcion": "Herido FFAA/FFPP" },
-  { "codigo": "10.44", "descripcion": "Paramédico" },
-  { "codigo": "10.45", "descripcion": "Medico" },
-  { "codigo": "10.46", "descripcion": "Enfermo" },
-  { "codigo": "10.47", "descripcion": "No interrumpir" },
-  { "codigo": "10.48", "descripcion": "Bombero piloto" },
-  { "codigo": "10.49", "descripcion": "Piloto rentado" },
-  { "codigo": "10.50", "descripcion": "En estado de alerta" },
-  { "codigo": "10.51", "descripcion": "Parturienta" },
-  { "codigo": "10.52", "descripcion": "Toque sirena" },
-  { "codigo": "10.53", "descripcion": "Regrese a su base" },
-  { "codigo": "10.54", "descripcion": "Prosiga la marcha" },
-  { "codigo": "10.55", "descripcion": "Requiere de empresa de saneamiento" },
-  { "codigo": "10.56", "descripcion": "Deje sin efecto" },
-  { "codigo": "10.57", "descripcion": "Utilice claves" },
-  { "codigo": "10.58", "descripcion": "Fin de estado de alerta" },
-  { "codigo": "10.59", "descripcion": "Guardia nocturna" },
-  { "codigo": "10.60", "descripcion": "Tipo de emergencia" },
+    <script>
+        // 1. DATASET COMPLETO CON LA PROPIEDAD "CATEGORIA"
+        const claves = [
+            // SECCIÓN 10. SERVICIOS
+            { "codigo": "10.01", "descripcion": "Adelante", "categoria": "Servicios" },
+            { "codigo": "10.02", "descripcion": "Operador de radio identifíquese", "categoria": "Servicios" },
+            { "codigo": "10.03", "descripcion": "Cambie frecuencia radial", "categoria": "Servicios" },
+            { "codigo": "10.04", "descripcion": "Llame por teléfono", "categoria": "Servicios" },
+            { "codigo": "10.05", "descripcion": "Comprendido", "categoria": "Servicios" },
+            { "codigo": "10.06", "descripcion": "Afirmativo", "categoria": "Servicios" },
+            { "codigo": "10.07", "descripcion": "Se dirige / Diríjase", "categoria": "Servicios" },
+            { "codigo": "10.08", "descripcion": "Repita mensaje", "categoria": "Servicios" },
+            { "codigo": "10.09", "descripcion": "Negativo", "categoria": "Servicios" },
+            { "codigo": "10.10", "descripcion": "Comunicación con", "categoria": "Servicios" },
+            { "codigo": "10.11", "descripcion": "Al mando de la unidad", "categoria": "Servicios" },
+            { "codigo": "10.12", "descripcion": "Siga en escucha", "categoria": "Servicios" },
+            { "codigo": "10.13", "descripcion": "Derrotero", "categoria": "Servicios" },
+            { "codigo": "10.14", "descripcion": "Se consulta", "categoria": "Servicios" },
+            { "codigo": "10.15", "descripcion": "Efectivos", "categoria": "Servicios" },
+            { "codigo": "10.16", "descripcion": "Indique magnitud", "categoria": "Servicios" },
+            { "codigo": "10.17", "descripcion": "Informe novedades", "categoria": "Servicios" },
+            { "codigo": "10.18", "descripcion": "Dirección", "categoria": "Servicios" },
+            { "codigo": "10.19", "descripcion": "Ubicación", "categoria": "Servicios" },
+            { "codigo": "10.20", "descripcion": "En el lugar", "categoria": "Servicios" },
+            { "codigo": "10.21", "descripcion": "Línea privada", "categoria": "Servicios" },
+            { "codigo": "10.22", "descripcion": "En sintonía", "categoria": "Servicios" },
+            { "codigo": "10.23", "descripcion": "Se retira del lugar", "categoria": "Servicios" },
+            { "codigo": "10.24", "descripcion": "Urgente", "categoria": "Servicios" },
+            { "codigo": "10.25", "descripcion": "Emergencia confirmada", "categoria": "Servicios" },
+            { "codigo": "10.26", "descripcion": "En servicio", "categoria": "Servicios" },
+            { "codigo": "10.27", "descripcion": "Disponible", "categoria": "Servicios" },
+            { "codigo": "10.28", "descripcion": "Emergencia cancelada", "categoria": "Servicios" },
+            { "codigo": "10.29", "descripcion": "Continue en alerta", "categoria": "Servicios" },
+            { "codigo": "10.30", "descripcion": "Ingresa su base", "categoria": "Servicios" },
+            { "codigo": "10.31", "descripcion": "Traslado / transporte", "categoria": "Servicios" },
+            { "codigo": "10.32", "descripcion": "Emergencia en progreso", "categoria": "Servicios" },
+            { "codigo": "10.33", "descripcion": "Emergencia controlada", "categoria": "Servicios" },
+            { "codigo": "10.34", "descripcion": "Tome precauciones", "categoria": "Servicios" },
+            { "codigo": "10.35", "descripcion": "Requiere policía", "categoria": "Servicios" },
+            { "codigo": "10.36", "descripcion": "Fuera de sintonía", "categoria": "Servicios" },
+            { "codigo": "10.37", "descripcion": "Requiere empresa eléctrica", "categoria": "Servicios" },
+            { "codigo": "10.38", "descripcion": "Abastecimiento de...", "categoria": "Servicios" },
+            { "codigo": "10.39", "descripcion": "Fuera de servicio", "categoria": "Servicios" },
+            { "codigo": "10.40", "descripcion": "Espere ordenes", "categoria": "Servicios" },
+            { "codigo": "10.41", "descripcion": "Herido", "categoria": "Servicios" },
+            { "codigo": "10.42", "descripcion": "Muerto", "categoria": "Servicios" },
+            { "codigo": "10.43", "descripcion": "Herido FFAA/FFPP", "categoria": "Servicios" },
+            { "codigo": "10.44", "descripcion": "Paramédico", "categoria": "Servicios" },
+            { "codigo": "10.45", "descripcion": "Medico", "categoria": "Servicios" },
+            { "codigo": "10.46", "descripcion": "Enfermo", "categoria": "Servicios" },
+            { "codigo": "10.47", "descripcion": "No interrumpir", "categoria": "Servicios" },
+            { "codigo": "10.48", "descripcion": "Bombero piloto", "categoria": "Servicios" },
+            { "codigo": "10.49", "descripcion": "Piloto rentado", "categoria": "Servicios" },
+            { "codigo": "10.50", "descripcion": "En estado de alerta", "categoria": "Servicios" },
+            { "codigo": "10.51", "descripcion": "Parturienta", "categoria": "Servicios" },
+            { "codigo": "10.52", "descripcion": "Toque sirena", "categoria": "Servicios" },
+            { "codigo": "10.53", "descripcion": "Regrese a su base", "categoria": "Servicios" },
+            { "codigo": "10.54", "descripcion": "Prosiga la marcha", "categoria": "Servicios" },
+            { "codigo": "10.55", "descripcion": "Requiere de empresa de saneamiento", "categoria": "Servicios" },
+            { "codigo": "10.56", "descripcion": "Deje sin efecto", "categoria": "Servicios" },
+            { "codigo": "10.57", "descripcion": "Utilice claves", "categoria": "Servicios" },
+            { "codigo": "10.58", "descripcion": "Fin de estado de alerta", "categoria": "Servicios" },
+            { "codigo": "10.59", "descripcion": "Guardia nocturna", "categoria": "Servicios" },
+            { "codigo": "10.60", "descripcion": "Tipo de emergencia", "categoria": "Servicios" },
 
-  { "codigo": "20.01", "descripcion": "Efectivo CGBVP accidentado" },
-  { "codigo": "20.02", "descripcion": "Vehículo CGBVP accidentado" },
-  { "codigo": "20.03", "descripcion": "Atentado/artefacto explosivo" },
-  { "codigo": "20.04", "descripcion": "Atropellado" },
-  { "codigo": "20.05", "descripcion": "Ascensor atrapado" },
-  { "codigo": "20.06", "descripcion": "Inundación" },
-  { "codigo": "20.07", "descripcion": "Falsa Alarma" },
-  { "codigo": "20.08", "descripcion": "Incendio vehicular" },
-  { "codigo": "20.09", "descripcion": "Derrumbe" },
-  { "codigo": "20.10", "descripcion": "Derrame producto ¿?" },
-  { "codigo": "20.11", "descripcion": "Material peligros-indique" },
-  { "codigo": "20.12", "descripcion": "Fuga de gas" },
-  { "codigo": "20.13", "descripcion": "Grifo/cisterna" },
-  { "codigo": "20.14", "descripcion": "Incendio/no apoyo" },
-  { "codigo": "20.15", "descripcion": "Incendio/1 unidad de apoyo" },
-  { "codigo": "20.16", "descripcion": "Incendio/2 unidad de apoyo" },
-  { "codigo": "20.17", "descripcion": "Incendio/+2 unidad de apoyo" },
-  { "codigo": "20.18", "descripcion": "Incendio/+3 unidad de apoyo" },
-  { "codigo": "20.19", "descripcion": "Catástrofe-orden 7.11-7.12" },
-  { "codigo": "20.20", "descripcion": "Incendio forestal" },
-  { "codigo": "20.21", "descripcion": "Incendio terreno baldío" },
-  { "codigo": "20.22", "descripcion": "Corto circuito" },
-  { "codigo": "20.23", "descripcion": "Accidente vehicular" },
-  { "codigo": "20.24", "descripcion": "Rescate /Atrapados" },
-  { "codigo": "20.25", "descripcion": "Huayco/Erupción volcánica" },
-  { "codigo": "20.26", "descripcion": "Evacuación/Fumigación" },
-  { "codigo": "20.27", "descripcion": "Poste eléctrico/aviso luminoso" },
-
-  { "codigo": "30.30", "descripcion": "Otro servicio/Servicio especial" },
-  { "codigo": "30.31", "descripcion": "Practicas/charlas/simulacros/ceremonias" },
-  { "codigo": "30.32", "descripcion": "Eventos/conciertos/festivales" },
-  { "codigo": "30.33", "descripcion": "Abrir puertas" },
-  { "codigo": "30.34", "descripcion": "Colocar letreros/pancartas" },
-  { "codigo": "30.35", "descripcion": "Velorio/Entierro" },
-  { "codigo": "30.36", "descripcion": "Apoyos sociales (servicios de agua/vacunación)" },
-
-  { "codigo": "3.01", "descripcion": "Brigadier General" },
-  { "codigo": "3.02", "descripcion": "Brigadier Mayor" },
-  { "codigo": "3.03", "descripcion": "Brigadier" },
-  { "codigo": "3.04", "descripcion": "Teniente brigadier" },
-  { "codigo": "3.05", "descripcion": "Capitán" },
-  { "codigo": "3.06", "descripcion": "Teniente" },
-  { "codigo": "3.07", "descripcion": "sub. teniente" },
-  { "codigo": "3.08", "descripcion": "Seccionario" },
-  { "codigo": "3.09", "descripcion": "Alumno" },
-
-  { "codigo": "7.11", "descripcion": "Comandante regional" },
-  { "codigo": "7.12", "descripcion": "Vice Comandante regional" },
-  { "codigo": "7.13", "descripcion": "Inspector regional" },
-  { "codigo": "7.14", "descripcion": "Presidente del concejo de disciplina" },
-  { "codigo": "7.16", "descripcion": "Jefe de brigada" },
-  { "codigo": "7.17", "descripcion": "Jefe de personal" },
-  { "codigo": "7.19", "descripcion": "Jefe de logística y mantenimiento" },
-  { "codigo": "7.21", "descripcion": "Jefe de técnica" },
-  { "codigo": "7.22", "descripcion": "Jefe de sanidad regional" },
-  { "codigo": "7.25", "descripcion": "Jefe de RRPP" },
-
-  { "codigo": "30.11", "descripcion": "Primer jefe de compañía" },
-  { "codigo": "33.12", "descripcion": "Segundo jefe de compañía" },
-  { "codigo": "30.13", "descripcion": "Jefe de operaciones emergencias" },
-  { "codigo": "30.14", "descripcion": "Jefe operación 1" },
-  { "codigo": "30.15", "descripcion": "Jefe de operaciones 2" },
-  { "codigo": "30.16", "descripcion": "Jefe de operaciones 3" },
-  { "codigo": "30.17", "descripcion": "Jefe de administración" },
-  { "codigo": "30.18", "descripcion": "Jefe de servicio" },
-  { "codigo": "30.19", "descripcion": "Jefe de disciplina" },
-  { "codigo": "30.22", "descripcion": "Medico de turno" },
-
-  { "codigo": "X6", "descripcion": "Comando regional" },
-  { "codigo": "X7", "descripcion": "Cuartel de compañía" },
-  { "codigo": "X14", "descripcion": "Domicilio" },
-  { "codigo": "X15", "descripcion": "Centro de trabajo" },
-
-  { "codigo": "1.01", "descripcion": "Contador" },
-  { "codigo": "1.02", "descripcion": "Secretaria" },
-  { "codigo": "1.03", "descripcion": "Auxiliar de secretaria" },
-  { "codigo": "1.04", "descripcion": "Chofer cuartelero" },
-  { "codigo": "1.05", "descripcion": "Cuartelero" },
-  { "codigo": "1.06", "descripcion": "Operador de radio" },
-  { "codigo": "1.07", "descripcion": "Obrero" },
-  { "codigo": "1.08", "descripcion": "Conserje" },
-  { "codigo": "1.09", "descripcion": "Practicante" }
-      ];
-
-    const input = document.getElementById("busqueda");
-    const lista = document.getElementById("lista");
-
-    function mostrarClaves(filtradas) {
-      lista.innerHTML = "";
-      filtradas.forEach(c => {
-        const div = document.createElement("div");
-        div.classList.add("item");
-        div.innerHTML = `<span class="codigo">${c.codigo}</span>${c.descripcion}`;
-        lista.appendChild(div);
-      });
-    }
-
-    input.addEventListener("input", () => {
-      const texto = input.value.toLowerCase();
-      const filtradas = claves.filter(c =>
-        c.descripcion.toLowerCase().includes(texto) ||
-        c.codigo.includes(texto)
-      );
-      mostrarClaves(filtradas);
-    });
-
-    mostrarClaves(claves);
-  </script>
-</body>
-</html>
+            // SECCIÓN 20. EMERGENCIAS
+            { "codigo": "20.01", "descripcion": "Efectivo CGBVP accidentado", "categoria": "Emergencias" },
+            { "codigo": "20.02", "descripcion": "Vehículo CGBVP accidentado", "categoria": "Emergencias" },
+            { "codigo": "20.03", "descripcion": "Atentado/artefacto explosivo", "categoria": "Emergencias" },
+            { "codigo": "20.04", "descripcion": "Atropellado", "categoria": "Emergencias" },
+            { "codigo": "20.05", "descripcion": "Ascensor atrapado", "categoria": "Emergencias" },
+            { "codigo": "20.06", "descripcion": "Inundación", "categoria": "Emergencias" },
+            { "codigo": "20.07", "descripcion": "Falsa Alarma", "categoria": "Emergencias" },
+            { "codigo": "20.08", "descripcion": "Incendio vehicular", "categoria": "Emergencias" },
+            { "codigo": "20.09", "descripcion": "Derrumbe", "categoria": "Emergencias" },
+            { "codigo": "20.10", "descripcion": "Derrame producto ¿?", "categoria": "Emergencias" },
+            { "codigo": "20.11", "descripcion": "Material peligros-indique", "categoria": "Emergencias" },
+            { "codigo": "20.12", "descripcion": "Fuga de gas", "categoria": "Emergencias" },
+            { "codigo": "20.13", "descripcion": "Grifo/cisterna", "categoria": "Emergencias" },
+            { "codigo": "20.14", "descripcion": "Incendio/no apoyo", "categoria": "Emergencias" },
+            { "codigo": "20.15", "descripcion": "Incendio/1 unidad de apoyo", "categoria": "Emergencias" },
+            { "codigo": "20.16", "descripcion": "Incendio/2 unidad de apoyo", "categoria": "Emergencias" },
+            { "codigo": "20.17", "descripcion": "Incendio/+2 unidad de apoyo", "categoria": "Emergencias" },
+            { "codigo": "20.18", "descripcion": "Incendio/+3 unidad de apoyo", "categoria": "Emergencias" },
+            { "codigo": "20.19", "descripcion": "Catástrofe-orden 7.11-7.12", "categoria": "Emergencias" },
+            { "codigo": "20.20", "descripcion": "Incendio forestal", "categoria": "Emergencias" },
+            { "codigo": "20.21", "descripcion": "Incendio terreno baldío", "categoria": "Emergencias" },
+            { "codigo": "20.22", "descripcion": "Corto circuito", "categoria": "Emergencias" },
+            { "codigo": "20.23", "descripcion": "Accidente vehicular", "categoria": "Emergencias" },
+            { "codigo": "20.24", "descripcion": "Res

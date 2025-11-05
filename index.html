@@ -108,8 +108,7 @@
     <div id="lista"></div>
 
     <script>
-        // 1. DATASET COMPLETO CON LA PROPIEDAD "CATEGORIA"
-        const claves = [
+        [
             // SECCIÓN 10. SERVICIOS
             { "codigo": "10.01", "descripcion": "Adelante", "categoria": "Servicios" },
             { "codigo": "10.02", "descripcion": "Operador de radio identifíquese", "categoria": "Servicios" },
@@ -196,4 +195,153 @@
             { "codigo": "20.21", "descripcion": "Incendio terreno baldío", "categoria": "Emergencias" },
             { "codigo": "20.22", "descripcion": "Corto circuito", "categoria": "Emergencias" },
             { "codigo": "20.23", "descripcion": "Accidente vehicular", "categoria": "Emergencias" },
-            { "codigo": "20.24", "descripcion": "Res
+            { "codigo": "20.24", "descripcion": "Rescate /Atrapados", "categoria": "Emergencias" },
+            { "codigo": "20.25", "descripcion": "Huayco/Erupción volcánica", "categoria": "Emergencias" },
+            { "codigo": "20.26", "descripcion": "Evacuación/Fumigación", "categoria": "Emergencias" },
+            { "codigo": "20.27", "descripcion": "Poste eléctrico/aviso luminoso", "categoria": "Emergencias" },
+
+            // SECCIÓN 30. SERVICIOS ESPECIALES
+            { "codigo": "30.30", "descripcion": "Otro servicio/Servicio especial", "categoria": "Especiales" },
+            { "codigo": "30.31", "descripcion": "Practicas/charlas/simulacros/ceremonias", "categoria": "Especiales" },
+            { "codigo": "30.32", "descripcion": "Eventos/conciertos/festivales", "categoria": "Especiales" },
+            { "codigo": "30.33", "descripcion": "Abrir puertas", "categoria": "Especiales" },
+            { "codigo": "30.34", "descripcion": "Colocar letreros/pancartas", "categoria": "Especiales" },
+            { "codigo": "30.35", "descripcion": "Velorio/Entierro", "categoria": "Especiales" },
+            { "codigo": "30.36", "descripcion": "Apoyos sociales (servicios de agua/vacunación)", "categoria": "Especiales" },
+
+            // SECCIÓN 3. JERARQUÍAS
+            { "codigo": "3.01", "descripcion": "Brigadier General", "categoria": "Jerarquías" },
+            { "codigo": "3.02", "descripcion": "Brigadier Mayor", "categoria": "Jerarquías" },
+            { "codigo": "3.03", "descripcion": "Brigadier", "categoria": "Jerarquías" },
+            { "codigo": "3.04", "descripcion": "Teniente brigadier", "categoria": "Jerarquías" },
+            { "codigo": "3.05", "descripcion": "Capitán", "categoria": "Jerarquías" },
+            { "codigo": "3.06", "descripcion": "Teniente", "categoria": "Jerarquías" },
+            { "codigo": "3.07", "descripcion": "sub. teniente", "categoria": "Jerarquías" },
+            { "codigo": "3.08", "descripcion": "Seccionario", "categoria": "Jerarquías" },
+            { "codigo": "3.09", "descripcion": "Alumno", "categoria": "Jerarquías" },
+
+            // SECCIÓN 7. COMANDO REGIONAL (Nacional)
+            { "codigo": "7.11", "descripcion": "Comandante regional", "categoria": "Nacional" },
+            { "codigo": "7.12", "descripcion": "Vice Comandante regional", "categoria": "Nacional" },
+            { "codigo": "7.13", "descripcion": "Inspector regional", "categoria": "Nacional" },
+            { "codigo": "7.14", "descripcion": "Presidente del concejo de disciplina", "categoria": "Nacional" },
+            { "codigo": "7.16", "descripcion": "Jefe de brigada", "categoria": "Nacional" },
+            { "codigo": "7.17", "descripcion": "Jefe de personal", "categoria": "Nacional" },
+            { "codigo": "7.19", "descripcion": "Jefe de logística y mantenimiento", "categoria": "Nacional" },
+            { "codigo": "7.21", "descripcion": "Jefe de técnica", "categoria": "Nacional" },
+            { "codigo": "7.22", "descripcion": "Jefe de sanidad regional", "categoria": "Nacional" },
+            { "codigo": "7.25", "descripcion": "Jefe de RRPP", "categoria": "Nacional" },
+
+            // SECCIÓN 30. COMPAÑÍA (Jefaturas)
+            { "codigo": "30.11", "descripcion": "Primer jefe de compañía", "categoria": "Compañía" },
+            { "codigo": "33.12", "descripcion": "Segundo jefe de compañía", "categoria": "Compañía" },
+            { "codigo": "30.13", "descripcion": "Jefe de operaciones emergencias", "categoria": "Compañía" },
+            { "codigo": "30.14", "descripcion": "Jefe operación 1", "categoria": "Compañía" },
+            { "codigo": "30.15", "descripcion": "Jefe de operaciones 2", "categoria": "Compañía" },
+            { "codigo": "30.16", "descripcion": "Jefe de operaciones 3", "categoria": "Compañía" },
+            { "codigo": "30.17", "descripcion": "Jefe de administración", "categoria": "Compañía" },
+            { "codigo": "30.18", "descripcion": "Jefe de servicio", "categoria": "Compañía" },
+            { "codigo": "30.19", "descripcion": "Jefe de disciplina", "categoria": "Compañía" },
+            { "codigo": "30.22", "descripcion": "Medico de turno", "categoria": "Compañía" },
+
+            // SECCIÓN X. LOCALES
+            { "codigo": "X6", "descripcion": "Comando regional", "categoria": "Locales" },
+            { "codigo": "X7", "descripcion": "Cuartel de compañía", "categoria": "Locales" },
+            { "codigo": "X14", "descripcion": "Domicilio", "categoria": "Locales" },
+            { "codigo": "X15", "descripcion": "Centro de trabajo", "categoria": "Locales" },
+
+            // SECCIÓN 1. PERSONAL RENTADO (Personal)
+            { "codigo": "1.01", "descripcion": "Contador", "categoria": "Personal" },
+            { "codigo": "1.02", "descripcion": "Secretaria", "categoria": "Personal" },
+            { "codigo": "1.03", "descripcion": "Auxiliar de secretaria", "categoria": "Personal" },
+            { "codigo": "1.04", "descripcion": "Chofer cuartelero", "categoria": "Personal" },
+            { "codigo": "1.05", "descripcion": "Cuartelero", "categoria": "Personal" },
+            { "codigo": "1.06", "descripcion": "Operador de radio", "categoria": "Personal" },
+            { "codigo": "1.07", "descripcion": "Obrero", "categoria": "Personal" },
+            { "codigo": "1.08", "descripcion": "Conserje", "categoria": "Personal" },
+            { "codigo": "1.09", "descripcion": "Practicante", "categoria": "Personal" }
+        ];
+
+        // 2. OBTENER ELEMENTOS DEL DOM
+        const input = document.getElementById("busqueda");
+        const lista = document.getElementById("lista");
+        const contenedorFiltros = document.getElementById("filtros");
+
+        let categoriaActiva = "Todos"; // Variable para saber qué filtro está activo
+
+        // 3. FUNCIÓN PARA DIBUJAR LA LISTA
+        function mostrarClaves(filtradas) {
+            lista.innerHTML = ""; // Limpiar la lista actual
+            filtradas.forEach(c => {
+                const div = document.createElement("div");
+                div.classList.add("item");
+                
+                // Usamos innerHTML para estructurar mejor el contenido con la categoría
+                div.innerHTML = `
+                    <div class="item-header">
+                        <span class="codigo">${c.codigo}</span>
+                        <span class="categoria-tag">${c.categoria}</span>
+                    </div>
+                    <span class="descripcion">${c.descripcion}</span>
+                `;
+                lista.appendChild(div);
+            });
+        }
+
+        // 4. FUNCIÓN MAESTRA DE FILTRADO POR CATEGORÍA
+        function filtrarPorCategoria(categoria) {
+            let listaResultado = claves; // Empezamos con la lista completa
+
+            if (categoria !== "Todos") {
+                // Si NO es "Todos", usamos .filter() para seleccionar solo la categoría.
+                listaResultado = claves.filter(clave => clave.categoria === categoria);
+            }
+
+            // Actualizar la vista con el resultado
+            mostrarClaves(listaResultado);
+            
+            // Actualizar el estilo del botón activo
+            document.querySelectorAll('#filtros button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-filtro="${categoria}"]`).classList.add('active');
+            
+            // Guardar la categoría activa (útil si quisiéramos combinar con la búsqueda por texto)
+            categoriaActiva = categoria; 
+        }
+
+        // 5. EVENTO PARA EL FILTRO POR BOTÓN (CLICK)
+        contenedorFiltros.addEventListener("click", (evento) => {
+            // Solo actuar si se hizo clic en un botón con el atributo data-filtro
+            if (evento.target.tagName === 'BUTTON' && evento.target.dataset.filtro) {
+                const categoriaSeleccionada = evento.target.dataset.filtro;
+                input.value = ""; // Limpiar el input de búsqueda al cambiar de filtro
+                filtrarPorCategoria(categoriaSeleccionada);
+            }
+        });
+
+        // 6. EVENTO PARA LA BÚSQUEDA POR TEXTO (INPUT)
+        input.addEventListener("input", () => {
+            const texto = input.value.toLowerCase();
+            
+            // 6.1. DETERMINAR EN QUÉ SUBCONJUNTO BUSCAR:
+            let listaBase = claves;
+            if (categoriaActiva !== "Todos") {
+                 // Si hay un filtro de categoría activo, filtramos primero por esa categoría.
+                listaBase = claves.filter(clave => clave.categoria === categoriaActiva);
+            }
+
+            // 6.2. APLICAR EL FILTRO DE TEXTO:
+            const filtradasPorTexto = listaBase.filter(c =>
+                c.descripcion.toLowerCase().includes(texto) ||
+                c.codigo.includes(texto)
+            );
+            
+            mostrarClaves(filtradasPorTexto);
+        });
+
+        // INICIALIZACIÓN: Mostrar la lista completa al cargar la página
+        filtrarPorCategoria("Todos"); 
+    </script>
+</body>
+</html>

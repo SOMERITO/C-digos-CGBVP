@@ -320,43 +320,46 @@
             }
         });
 
-        // 6. EVENTO PARA LA BÚSQUEDA POR TEXTO (INPUT)
-        input.addEventListener("input", () => {
-            const texto = input.value.toLowerCase();
-            
-            // 6.1. DETERMINAR EN QUÉ SUBCONJUNTO BUSCAR:
-            let listaBase = claves;
-            if (categoriaActiva !== "Todos") {
-                 // Si hay un filtro de categoría activo, filtramos primero por esa categoría.
-                listaBase = claves.filter(clave => clave.categoria === categoriaActiva);
-            }
+// 6. EVENTO PARA LA BÚSQUEDA POR TEXTO (INPUT) - ¡MODIFICADO PARA NORMALIZAR!
+    input.addEventListener("input", () => {
+        // Normaliza el texto de búsqueda del usuario
+        const texto = normalizar(input.value.toLowerCase());
 
-            // 6.2. APLICAR EL FILTRO DE TEXTO:
-            const filtradasPorTexto = listaBase.filter(c =>
-                c.descripcion.toLowerCase().includes(texto) ||
-                c.codigo.includes(texto)
-            );
-            
-            mostrarClaves(filtradasPorTexto);
-        });
+        // 6.1. Determinar en qué subconjunto buscar (sin cambios)
+        let listaBase = claves;
+        if (categoriaActiva !== "Todos") {
+            listaBase = claves.filter(clave => clave.categoria === categoriaActiva);
+        }
 
-        // 7. FUNCIÓN PARA ENFOCAR EL INPUT CON CTRL+F
-        document.addEventListener('keydown', (event) => {
-            // Verificar si se presionó Ctrl (Windows/Linux) o Cmd (Mac) y la tecla 'f'
-            if ((event.ctrlKey || event.metaKey) && event.key === 'f') {
-                // Prevenir el comportamiento predeterminado del navegador (abrir la búsqueda nativa)
-                event.preventDefault();
-                
-                // Enfocar el campo de búsqueda (la variable 'input' ya está definida arriba)
-                input.focus();
-                
-                // Opcional: Seleccionar el texto actual
-                input.select(); 
-            }
-        });
+        // 6.2. Aplicar el filtro de texto, normalizando el contenido de la lista:
+        const filtradasPorTexto = listaBase.filter(c =>
+            // Se normaliza la descripción de la clave y se compara
+            normalizar(c.descripcion.toLowerCase()).includes(texto) ||
+            // Se normaliza el código y se compara
+            normalizar(c.codigo).includes(texto)
+        );
 
-        // INICIALIZACIÓN: Mostrar la lista completa al cargar la página
-        filtrarPorCategoria("Todos"); 
+        mostrarClaves(filtradasPorTexto);
+    });
+
+    // 7. FUNCIÓN PARA ENFOCAR EL INPUT CON CTRL+F - ¡NUEVA FUNCIONALIDAD!
+    document.addEventListener('keydown', (event) => {
+        // Verifica Ctrl (Windows/Linux) o Cmd (Mac) y la tecla 'f'
+        if ((event.ctrlKey || event.metaKey) && event.key === 'f') {
+            // Evita que el navegador abra su propia barra de búsqueda
+            event.preventDefault();
+
+            // Enfoca el campo de búsqueda
+            input.focus();
+
+            // Selecciona el texto actual para facilitar la nueva escritura
+            input.select();
+        }
+    });
+
+    // INICIALIZACIÓN: Mostrar la lista completa al cargar la página (SIN CAMBIOS)
+    filtrarPorCategoria("Todos");
+
     </script>
 </body>
 </html>

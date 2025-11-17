@@ -340,6 +340,21 @@
             mostrarClaves(filtradasPorTexto);
         });
 
+        // 7. FUNCIÓN PARA ENFOCAR EL INPUT CON CTRL+F
+        document.addEventListener('keydown', (event) => {
+            // Verificar si se presionó Ctrl (Windows/Linux) o Cmd (Mac) y la tecla 'f'
+            if ((event.ctrlKey || event.metaKey) && event.key === 'f') {
+                // Prevenir el comportamiento predeterminado del navegador (abrir la búsqueda nativa)
+                event.preventDefault();
+                
+                // Enfocar el campo de búsqueda (la variable 'input' ya está definida arriba)
+                input.focus();
+                
+                // Opcional: Seleccionar el texto actual
+                input.select(); 
+            }
+        });
+
         // INICIALIZACIÓN: Mostrar la lista completa al cargar la página
         filtrarPorCategoria("Todos"); 
     </script>

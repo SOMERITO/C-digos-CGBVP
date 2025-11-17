@@ -20,7 +20,7 @@
             border: 2px solid #c0392b;
             border-radius: 10px;
             margin-bottom: 15px;
-            box-sizing: border-box; /* Asegura que el padding no cambie el ancho total */
+            box-sizing: border-box;
         }
         /* Estilos para la barra de filtros */
         #filtros {
@@ -42,7 +42,7 @@
             cursor: pointer;
             transition: background-color 0.2s, color 0.2s;
             font-size: 0.85em;
-            white-space: nowrap; /* Evita que el texto del botón se corte */
+            white-space: nowrap;
         }
         /* Estilo para resaltar el botón activo */
         #filtros button.active,
@@ -267,16 +267,15 @@
         const lista = document.getElementById("lista");
         const contenedorFiltros = document.getElementById("filtros");
 
-        let categoriaActiva = "Todos"; // Variable para saber qué filtro está activo
+        let categoriaActiva = "Todos";
 
         // 3. FUNCIÓN PARA DIBUJAR LA LISTA
         function mostrarClaves(filtradas) {
-            lista.innerHTML = ""; // Limpiar la lista actual
+            lista.innerHTML = "";
             filtradas.forEach(c => {
                 const div = document.createElement("div");
                 div.classList.add("item");
                 
-                // Usamos innerHTML para estructurar mejor el contenido con la categoría
                 div.innerHTML = `
                     <div class="item-header">
                         <span class="codigo">${c.codigo}</span>
@@ -288,77 +287,79 @@
             });
         }
 
+        // ⭐ NUEVA FUNCIÓN AÑADIDA: NORMALIZAR (Para ignorar tildes) ⭐
+        function normalizar(texto) {
+            // Descompone caracteres acentuados y elimina los acentos.
+            return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        }
+
+
         // 4. FUNCIÓN MAESTRA DE FILTRADO POR CATEGORÍA
         function filtrarPorCategoria(categoria) {
-            let listaResultado = claves; // Empezamos con la lista completa
+            let listaResultado = claves;
 
             if (categoria !== "Todos") {
-                // Si NO es "Todos", usamos .filter() para seleccionar solo la categoría.
                 listaResultado = claves.filter(clave => clave.categoria === categoria);
             }
 
-            // Actualizar la vista con el resultado
             mostrarClaves(listaResultado);
             
-            // Actualizar el estilo del botón activo
             document.querySelectorAll('#filtros button').forEach(btn => {
                 btn.classList.remove('active');
             });
             document.querySelector(`[data-filtro="${categoria}"]`).classList.add('active');
             
-            // Guardar la categoría activa (útil si quisiéramos combinar con la búsqueda por texto)
             categoriaActiva = categoria; 
         }
 
         // 5. EVENTO PARA EL FILTRO POR BOTÓN (CLICK)
         contenedorFiltros.addEventListener("click", (evento) => {
-            // Solo actuar si se hizo clic en un botón con el atributo data-filtro
             if (evento.target.tagName === 'BUTTON' && evento.target.dataset.filtro) {
                 const categoriaSeleccionada = evento.target.dataset.filtro;
-                input.value = ""; // Limpiar el input de búsqueda al cambiar de filtro
+                input.value = "";
                 filtrarPorCategoria(categoriaSeleccionada);
             }
         });
 
-// 6. EVENTO PARA LA BÚSQUEDA POR TEXTO (INPUT) - ¡MODIFICADO PARA NORMALIZAR!
-    input.addEventListener("input", () => {
-        // Normaliza el texto de búsqueda del usuario
-        const texto = normalizar(input.value.toLowerCase());
+        // 6. EVENTO PARA LA BÚSQUEDA POR TEXTO (INPUT) - ¡AHORA LLAMA A normalizar() CORRECTAMENTE!
+        input.addEventListener("input", () => {
+            // Normaliza el texto de búsqueda del usuario (insensible a acentos)
+            const texto = normalizar(input.value.toLowerCase());
 
-        // 6.1. Determinar en qué subconjunto buscar (sin cambios)
-        let listaBase = claves;
-        if (categoriaActiva !== "Todos") {
-            listaBase = claves.filter(clave => clave.categoria === categoriaActiva);
-        }
+            // 6.1. Determinar en qué subconjunto buscar (sin cambios)
+            let listaBase = claves;
+            if (categoriaActiva !== "Todos") {
+                listaBase = claves.filter(clave => clave.categoria === categoriaActiva);
+            }
 
-        // 6.2. Aplicar el filtro de texto, normalizando el contenido de la lista:
-        const filtradasPorTexto = listaBase.filter(c =>
-            // Se normaliza la descripción de la clave y se compara
-            normalizar(c.descripcion.toLowerCase()).includes(texto) ||
-            // Se normaliza el código y se compara
-            normalizar(c.codigo).includes(texto)
-        );
+            // 6.2. Aplicar el filtro de texto, normalizando el contenido de la lista:
+            const filtradasPorTexto = listaBase.filter(c =>
+                // Normaliza el contenido de la descripción antes de comparar
+                normalizar(c.descripcion.toLowerCase()).includes(texto) ||
+                // Normaliza el contenido del código (opcional, pero seguro)
+                normalizar(c.codigo).includes(texto)
+            );
 
-        mostrarClaves(filtradasPorTexto);
-    });
+            mostrarClaves(filtradasPorTexto);
+        });
 
-    // 7. FUNCIÓN PARA ENFOCAR EL INPUT CON CTRL+F - ¡NUEVA FUNCIONALIDAD!
-    document.addEventListener('keydown', (event) => {
-        // Verifica Ctrl (Windows/Linux) o Cmd (Mac) y la tecla 'f'
-        if ((event.ctrlKey || event.metaKey) && event.key === 'f') {
-            // Evita que el navegador abra su propia barra de búsqueda
-            event.preventDefault();
+        // 7. FUNCIÓN PARA ENFOCAR EL INPUT CON CTRL+F - FUNCIONALIDAD AÑADIDA
+        document.addEventListener('keydown', (event) => {
+            // Verifica Ctrl (Windows/Linux) o Cmd (Mac) y la tecla 'f'
+            if ((event.ctrlKey || event.metaKey) && event.key === 'f') {
+                // Evita que el navegador abra su propia barra de búsqueda
+                event.preventDefault();
 
-            // Enfoca el campo de búsqueda
-            input.focus();
+                // Enfoca el campo de búsqueda
+                input.focus();
 
-            // Selecciona el texto actual para facilitar la nueva escritura
-            input.select();
-        }
-    });
+                // Selecciona el texto actual
+                input.select();
+            }
+        });
 
-    // INICIALIZACIÓN: Mostrar la lista completa al cargar la página (SIN CAMBIOS)
-    filtrarPorCategoria("Todos");
+        // INICIALIZACIÓN: Mostrar la lista completa al cargar la página
+        filtrarPorCategoria("Todos");
 
     </script>
 </body>

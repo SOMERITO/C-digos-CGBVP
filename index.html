@@ -28,6 +28,7 @@
             box-sizing: border-box;
             background: white;
             color: #333;
+            transition: background 0.3s, color 0.3s, border-color 0.3s;
         }
         /* Estilos para la barra de filtros */
         #filtros {
@@ -142,6 +143,28 @@
             background: #333;
             color: #b0b0b0;
             border-top-color: #444;
+        }
+
+        /* ============================================== */
+        /* === RESPONSIVE DESIGN (Adaptabilidad a Móviles) === */
+        /* ============================================== */
+        @media (max-width: 600px) {
+            #filtros {
+                max-width: 95%;
+                padding: 0 5px; 
+            }
+            #filtros button {
+                padding: 10px 14px;
+                margin: 4px 2px;
+                font-size: 0.9em;
+            }
+            input#busqueda {
+                width: 95%;
+            }
+            #toggle-dark-mode {
+                padding: 10px 14px;
+                font-size: 1.1em;
+            }
         }
     </style>
 </head>
@@ -361,9 +384,18 @@
 
         // Función para normalizar texto (eliminar tildes y convertir a minúsculas)
         function normalizar(texto) {
+            // Elimina tildes (acentos) y otros diacríticos
             return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
         }
 
+        // Función para guardar o eliminar la preferencia de tema en localStorage
+        function guardarPreferencia(esOscuro) {
+            if (esOscuro) {
+                localStorage.setItem('tema', 'oscuro');
+            } else {
+                localStorage.removeItem('tema');
+            }
+        }
 
         // Función maestra de filtrado por categoría
         function filtrarPorCategoria(categoria) {
@@ -421,8 +453,12 @@
         toggleButton.addEventListener("click", () => {
             document.body.classList.toggle("dark-mode");
             
-            // Cambiar el icono del botón
-            if (document.body.classList.contains("dark-mode")) {
+            const esOscuro = document.body.classList.contains("dark-mode");
+            
+            // Guardamos la preferencia y cambiamos el icono
+            guardarPreferencia(esOscuro);
+
+            if (esOscuro) {
                 toggleButton.textContent = "🌙";
             } else {
                 toggleButton.textContent = "☀️";
@@ -438,7 +474,21 @@
             }
         });
 
-        // INICIALIZACIÓN: Mostrar la lista completa al cargar la página
+
+        // =======================================
+        // === 4. INICIALIZACIÓN ===
+        // =======================================
+
+        // Cargar la preferencia de tema al abrir la página (persistencia)
+        if (localStorage.getItem('tema') === 'oscuro') {
+            document.body.classList.add('dark-mode');
+            toggleButton.textContent = "🌙";
+        } else {
+            document.body.classList.remove('dark-mode');
+            toggleButton.textContent = "☀️";
+        }
+
+        // Mostrar la lista completa al cargar la página
         filtrarPorCategoria("Todos");
 
     </script>

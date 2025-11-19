@@ -4,16 +4,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>🚒 Claves CGBVP</title>
     <style>
+        /* ======================================= */
+        /* === ESTILOS BASE (Modo Claro Default) === */
+        /* ======================================= */
         body {
             font-family: Arial, sans-serif;
-            background: #fff5f5;
+            background: #fff5f5; /* Fondo rosado/claro */
+            color: #333;        /* Texto oscuro */
             text-align: center;
-            /* 🍎 Manzanita: Añado espacio abajo para que el contenido no tape la firma */
             margin: 0;
-            padding: 20px 20px 60px 20px; 
+            padding: 20px 20px 60px 20px; /* Deja espacio para el pie de página fijo */
+            transition: background 0.3s, color 0.3s; /* Transición para el modo oscuro */
         }
         h1 {
-            color: #c0392b;
+            color: #c0392b; /* Rojo principal */
         }
         input {
             width: 80%;
@@ -22,6 +26,8 @@
             border-radius: 10px;
             margin-bottom: 15px;
             box-sizing: border-box;
+            background: white;
+            color: #333;
         }
         /* Estilos para la barra de filtros */
         #filtros {
@@ -53,7 +59,7 @@
         }
 
         .item {
-            background: white;
+            background: white; /* Fondo blanco de las tarjetas */
             border-left: 8px solid #c0392b;
             margin: 10px auto;
             padding: 10px;
@@ -63,12 +69,7 @@
             text-align: left;
             display: flex;
             flex-direction: column;
-        }
-        .item-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 5px;
+            transition: background 0.3s;
         }
         .codigo {
             font-weight: bold;
@@ -76,35 +77,78 @@
             margin-right: 10px;
             font-size: 1.1em;
         }
-        .descripcion {
-            font-size: 1em;
-            flex-grow: 1;
-        }
         .categoria-tag {
             font-size: 0.7em;
             color: #666;
             background: #f0f0f0;
             padding: 2px 6px;
             border-radius: 4px;
+            transition: background 0.3s, color 0.3s;
         }
         
-        /* 🚨 NUEVO ESTILO: Pie de página fijo y discreto 🚨 */
+        /* 🚨 ESTILO DE LA FIRMA (Pie de página) 🚨 */
         #firma-pie {
-            position: fixed; /* Lo fija en la pantalla */
-            bottom: 0; /* Lo pega al borde inferior */
+            position: fixed; 
+            bottom: 0; 
             left: 0;
             width: 100%;
-            background: #f0f0f0; /* Color gris claro */
-            color: #666; /* Texto gris oscuro */
+            background: #f0f0f0; 
+            color: #666; 
             padding: 10px 0;
             font-size: 0.8em;
             text-align: center;
             border-top: 1px solid #ccc;
-            z-index: 1000; /* Asegura que esté por encima de otros elementos */
+            z-index: 1000; 
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* =================================== */
+        /* === ESTILOS PARA EL MODO OSCURO === */
+        /* =================================== */
+        body.dark-mode {
+            background: #121212; /* Fondo muy oscuro */
+            color: #e0e0e0;      /* Texto claro */
+        }
+        body.dark-mode h1 {
+            color: #ff5252; /* Rojo más brillante en oscuro */
+        }
+        body.dark-mode input {
+            background: #333;
+            color: #e0e0e0;
+            border-color: #ff5252;
+        }
+        body.dark-mode .item {
+            background: #1e1e1e; /* Color oscuro para las tarjetas */
+            border-left-color: #ff5252; /* Línea de color más visible */
+        }
+        body.dark-mode .codigo {
+            color: #ff5252;
+        }
+        body.dark-mode .categoria-tag {
+            background: #333;
+            color: #b0b0b0;
+        }
+        body.dark-mode #filtros button {
+            background-color: #333;
+            color: #b0b0b0;
+            border-color: #444;
+        }
+        body.dark-mode #filtros button.active,
+        body.dark-mode #filtros button:hover {
+            background-color: #ff5252;
+            color: white;
+        }
+        body.dark-mode #firma-pie {
+            background: #333;
+            color: #b0b0b0;
+            border-top-color: #444;
         }
     </style>
 </head>
 <body>
+    
+    <button id="toggle-dark-mode" style="position: fixed; top: 15px; right: 15px; background: #c0392b; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; z-index: 2000;">☀️</button>
+
     <h1>🚒 Claves CGBVP</h1>
     <input type="text" id="busqueda" placeholder="Buscar código o descripción..." />
 
@@ -127,7 +171,9 @@
     </footer>
 
     <script>
-        // 1. DATASET COMPLETO CON LA PROPIEDAD "CATEGORIA"
+        // =======================================
+        // === 1. DATASET DE CLAVES ===
+        // =======================================
         const claves = [
             // SECCIÓN 10. SERVICIOS
             { "codigo": "10.01", "descripcion": "Adelante", "categoria": "Servicios" },
@@ -278,18 +324,24 @@
             { "codigo": "1.05", "descripcion": "Cuartelero", "categoria": "Personal" },
             { "codigo": "1.06", "descripcion": "Operador de radio", "categoria": "Personal" },
             { "codigo": "1.07", "descripcion": "Obrero", "categoria": "Personal" },
-            { "codigo": "1.08", "descripcion": "Conserje", "categoria": "Personal" },
+            { "codigo": "10.08", "descripcion": "Conserje", "categoria": "Personal" },
             { "codigo": "1.09", "descripcion": "Practicante", "categoria": "Personal" }
         ];
 
-        // 2. OBTENER ELEMENTOS DEL DOM
+
+        // =======================================
+        // === 2. FUNCIONES DE LÓGICA (JavaScript) ===
+        // =======================================
+        
+        // Obtener elementos del DOM
         const input = document.getElementById("busqueda");
         const lista = document.getElementById("lista");
         const contenedorFiltros = document.getElementById("filtros");
+        const toggleButton = document.getElementById("toggle-dark-mode");
 
         let categoriaActiva = "Todos";
 
-        // 3. FUNCIÓN PARA DIBUJAR LA LISTA
+        // Función para dibujar la lista
         function mostrarClaves(filtradas) {
             lista.innerHTML = "";
             filtradas.forEach(c => {
@@ -307,14 +359,13 @@
             });
         }
 
-        // ⭐ NUEVA FUNCIÓN AÑADIDA: NORMALIZAR (Para ignorar tildes) ⭐
+        // Función para normalizar texto (eliminar tildes y convertir a minúsculas)
         function normalizar(texto) {
-            // Descompone caracteres acentuados y elimina los acentos.
             return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
         }
 
 
-        // 4. FUNCIÓN MAESTRA DE FILTRADO POR CATEGORÍA
+        // Función maestra de filtrado por categoría
         function filtrarPorCategoria(categoria) {
             let listaResultado = claves;
 
@@ -324,6 +375,7 @@
 
             mostrarClaves(listaResultado);
             
+            // Actualizar el estado 'active' de los botones de filtro
             document.querySelectorAll('#filtros button').forEach(btn => {
                 btn.classList.remove('active');
             });
@@ -332,48 +384,56 @@
             categoriaActiva = categoria; 
         }
 
-        // 5. EVENTO PARA EL FILTRO POR BOTÓN (CLICK)
+
+        // =======================================
+        // === 3. EVENT LISTENERS (Interactividad) ===
+        // =======================================
+
+        // Evento para el filtro por botón (CLICK)
         contenedorFiltros.addEventListener("click", (evento) => {
             if (evento.target.tagName === 'BUTTON' && evento.target.dataset.filtro) {
                 const categoriaSeleccionada = evento.target.dataset.filtro;
-                input.value = "";
+                input.value = ""; // Limpiar búsqueda al cambiar de categoría
                 filtrarPorCategoria(categoriaSeleccionada);
             }
         });
 
-        // 6. EVENTO PARA LA BÚSQUEDA POR TEXTO (INPUT) - ¡AHORA LLAMA A normalizar() CORRECTAMENTE!
+        // Evento para la búsqueda por texto (INPUT)
         input.addEventListener("input", () => {
-            // Normaliza el texto de búsqueda del usuario (insensible a acentos)
             const texto = normalizar(input.value.toLowerCase());
 
-            // 6.1. Determinar en qué subconjunto buscar (sin cambios)
+            // 6.1. Determinar en qué subconjunto buscar (filtrar por categoría activa)
             let listaBase = claves;
             if (categoriaActiva !== "Todos") {
                 listaBase = claves.filter(clave => clave.categoria === categoriaActiva);
             }
 
-            // 6.2. Aplicar el filtro de texto, normalizando el contenido de la lista:
+            // 6.2. Aplicar el filtro de texto
             const filtradasPorTexto = listaBase.filter(c =>
-                // Normaliza el contenido de la descripción antes de comparar
                 normalizar(c.descripcion.toLowerCase()).includes(texto) ||
-                // Normaliza el contenido del código (opcional, pero seguro)
                 normalizar(c.codigo).includes(texto)
             );
 
             mostrarClaves(filtradasPorTexto);
         });
 
-        // 7. FUNCIÓN PARA ENFOCAR EL INPUT CON CTRL+F - FUNCIONALIDAD AÑADIDA
+        // Evento para alternar el modo oscuro/claro
+        toggleButton.addEventListener("click", () => {
+            document.body.classList.toggle("dark-mode");
+            
+            // Cambiar el icono del botón
+            if (document.body.classList.contains("dark-mode")) {
+                toggleButton.textContent = "🌙";
+            } else {
+                toggleButton.textContent = "☀️";
+            }
+        });
+
+        // Evento para enfocar el input con CTRL+F
         document.addEventListener('keydown', (event) => {
-            // Verifica Ctrl (Windows/Linux) o Cmd (Mac) y la tecla 'f'
             if ((event.ctrlKey || event.metaKey) && event.key === 'f') {
-                // Evita que el navegador abra su propia barra de búsqueda
                 event.preventDefault();
-
-                // Enfoca el campo de búsqueda
                 input.focus();
-
-                // Selecciona el texto actual
                 input.select();
             }
         });

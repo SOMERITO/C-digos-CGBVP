@@ -1,204 +1,225 @@
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>🚒 Claves CGBVP</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Claves CGBVP | Manual de Referencia</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <style>
         /* ======================================= */
-        /* === ESTILOS BASE (Modo Claro Default) === */
+        /* === SISTEMA DE DISEÑO (VARIABLES) === */
         /* ======================================= */
-        body {
-            font-family: Arial, sans-serif;
-            background: #fff5f5; /* Fondo rosado/claro */
-            color: #333;        /* Texto oscuro */
-            text-align: center;
-            margin: 0;
-            padding: 20px 20px 60px 20px; /* Deja espacio para el pie de página fijo */
-            transition: background 0.3s, color 0.3s; /* Transición para el modo oscuro */
-        }
-        h1 {
-            color: #c0392b; /* Rojo principal */
-        }
-        input {
-            width: 80%;
-            padding: 10px;
-            border: 2px solid #c0392b;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            box-sizing: border-box;
-            background: white;
-            color: #333;
-            transition: background 0.3s, color 0.3s, border-color 0.3s;
-        }
-        /* Estilos para la barra de filtros */
-        #filtros {
-            margin-bottom: 20px;
-            display: flex; 
-            flex-wrap: wrap; 
-            justify-content: center;
-            max-width: 90%;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        #filtros button {
-            background-color: #eee;
-            color: #333;
-            border: 1px solid #ccc;
-            padding: 8px 12px;
-            margin: 4px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.2s, color 0.2s;
-            font-size: 0.85em;
-            white-space: nowrap;
-        }
-        /* Estilo para resaltar el botón activo */
-        #filtros button.active,
-        #filtros button:hover {
-            background-color: #c0392b;
-            color: white;
+        :root {
+            /* MODO CLARO (Light) */
+            --bg-body: #F3F4F6;
+            --bg-card: #FFFFFF;
+            --bg-header: rgba(255, 255, 255, 0.85);
+            --bg-input: #FFFFFF;
+            --text-primary: #111827;
+            --text-secondary: #6B7280;
+            --text-code: #B91C1C;
+            --bg-code: #FEF2F2;
+            --border: #E5E7EB;
+            --accent: #DC2626;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+            --radius: 12px;
         }
 
-        .item {
-            background: white; /* Fondo blanco de las tarjetas */
-            border-left: 8px solid #c0392b;
-            margin: 10px auto;
-            padding: 10px;
-            width: 80%;
-            max-width: 600px;
-            border-radius: 8px;
-            text-align: left;
+        /* MODO OSCURO (Midnight Pro) */
+        [data-theme="dark"] {
+            --bg-body: #0F172A;
+            --bg-card: #1E293B;
+            --bg-header: rgba(15, 23, 42, 0.85);
+            --bg-input: #0F172A;
+            --text-primary: #F3F4F6;
+            --text-secondary: #94A3B8;
+            --text-code: #F87171;
+            --bg-code: #450a0a;
+            --border: #334155;
+            --accent: #EF4444;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            --shadow-hover: 0 0 0 1px rgba(239, 68, 68, 0.3), 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+        }
+
+        /* ======================================= */
+        /* === ESTILOS GENERALES === */
+        /* ======================================= */
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            margin: 0;
+            padding-bottom: 80px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            line-height: 1.5;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: var(--bg-header);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 24px;
+        }
+
+        .header-content { max-width: 1200px; margin: 0 auto; }
+
+        .top-bar {
             display: flex;
-            flex-direction: column;
-            transition: background 0.3s;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
         }
-        .codigo {
-            font-weight: bold;
-            color: #c0392b;
-            margin-right: 10px;
-            font-size: 1.1em;
-        }
-        .categoria-tag {
-            font-size: 0.7em;
-            color: #666;
-            background: #f0f0f0;
-            padding: 2px 6px;
-            border-radius: 4px;
-            transition: background 0.3s, color 0.3s;
+
+        .logo { display: flex; align-items: center; gap: 10px; }
+        .logo h1 { margin: 0; font-size: 1.35rem; font-weight: 800; letter-spacing: -0.02em; }
+        .logo-icon { font-size: 1.5rem; }
+
+        .search-box { position: relative; max-width: 600px; margin: 0 auto 16px auto; }
+        
+        .search-box input {
+            width: 100%;
+            padding: 14px 16px 14px 48px;
+            background: var(--bg-input);
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.2s ease;
         }
         
-        /* 🚨 ESTILO DE LA FIRMA (Pie de página) 🚨 */
-        #firma-pie {
-            position: fixed; 
-            bottom: 0; 
-            left: 0;
-            width: 100%;
-            background: #f0f0f0; 
-            color: #666; 
-            padding: 10px 0;
-            font-size: 0.8em;
-            text-align: center;
-            border-top: 1px solid #ccc;
-            z-index: 1000; 
-            transition: background 0.3s, color 0.3s;
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.1);
         }
 
-        /* =================================== */
-        /* === ESTILOS PARA EL MODO OSCURO === */
-        /* =================================== */
-        body.dark-mode {
-            background: #121212; /* Fondo muy oscuro */
-            color: #e0e0e0;      /* Texto claro */
-        }
-        body.dark-mode h1 {
-            color: #ff5252; /* Rojo más brillante en oscuro */
-        }
-        body.dark-mode input {
-            background: #333;
-            color: #e0e0e0;
-            border-color: #ff5252;
-        }
-        body.dark-mode .item {
-            background: #1e1e1e; /* Color oscuro para las tarjetas */
-            border-left-color: #ff5252; /* Línea de color más visible */
-        }
-        body.dark-mode .codigo {
-            color: #ff5252;
-        }
-        body.dark-mode .categoria-tag {
-            background: #333;
-            color: #b0b0b0;
-        }
-        body.dark-mode #filtros button {
-            background-color: #333;
-            color: #b0b0b0;
-            border-color: #444;
-        }
-        body.dark-mode #filtros button.active,
-        body.dark-mode #filtros button:hover {
-            background-color: #ff5252;
-            color: white;
-        }
-        body.dark-mode #firma-pie {
-            background: #333;
-            color: #b0b0b0;
-            border-top-color: #444;
+        .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-secondary); pointer-events: none; }
+        
+        .shortcut-hint {
+            position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
+            font-size: 0.75rem; color: var(--text-secondary); background: var(--border);
+            padding: 2px 6px; border-radius: 4px; font-weight: 600; opacity: 0.7;
         }
 
-        /* ============================================== */
-        /* === RESPONSIVE DESIGN (Adaptabilidad a Móviles) === */
-        /* ============================================== */
+        .filters-container {
+            display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px;
+            scrollbar-width: none; -ms-overflow-style: none;
+            mask-image: linear-gradient(to right, black 90%, transparent 100%);
+        }
+        .filters-container::-webkit-scrollbar { display: none; }
+
+        .filter-pill {
+            background: transparent; border: 1px solid var(--border); color: var(--text-secondary);
+            padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 600;
+            white-space: nowrap; cursor: pointer; transition: all 0.2s ease;
+            user-select: none;
+        }
+        .filter-pill:hover { background: var(--bg-card); border-color: var(--text-secondary); color: var(--text-primary); }
+        .filter-pill.active { background: var(--accent); border-color: var(--accent); color: white; box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3); }
+
+        .grid-container {
+            max-width: 1200px; margin: 24px auto; padding: 0 24px;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .card {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+            padding: 20px; display: flex; flex-direction: column; gap: 10px;
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+            position: relative; overflow: hidden; cursor: default;
+        }
+        
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--text-secondary);
+        }
+
+        .card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
+            background: var(--border); transition: background 0.3s;
+        }
+        .card:hover::before { background: var(--accent); }
+
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; }
+        
+        .code-badge {
+            font-family: 'Inter', monospace; font-size: 1.1rem; font-weight: 700;
+            color: var(--text-code); background: var(--bg-code);
+            padding: 4px 10px; border-radius: 6px; letter-spacing: 0.5px;
+        }
+
+        .category-text { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); font-weight: 600; margin-top: 4px; }
+        .desc-text { font-size: 0.95rem; font-weight: 500; color: var(--text-primary); line-height: 1.4; }
+
+        footer { text-align: center; padding: 24px; color: var(--text-secondary); font-size: 0.85rem; border-top: 1px solid var(--border); margin-top: 40px; background: var(--bg-body); }
+
+        .theme-btn {
+            background: var(--bg-card); border: 1px solid var(--border); color: var(--text-primary);
+            width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .theme-btn:hover { background: var(--border); transform: scale(1.05); }
+
+        .empty-state { grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: var(--text-secondary); }
+
         @media (max-width: 600px) {
-            #filtros {
-                max-width: 95%;
-                padding: 0 5px; 
-            }
-            #filtros button {
-                padding: 10px 14px;
-                margin: 4px 2px;
-                font-size: 0.9em;
-            }
-            input#busqueda {
-                width: 95%;
-            }
-            #toggle-dark-mode {
-                padding: 10px 14px;
-                font-size: 1.1em;
-            }
+            .grid-container { grid-template-columns: 1fr; padding: 0 16px; }
+            header { padding: 12px 16px; }
+            .shortcut-hint { display: none; }
         }
     </style>
 </head>
 <body>
-    
-    <button id="toggle-dark-mode" style="position: fixed; top: 15px; right: 15px; background: #c0392b; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; z-index: 2000;">☀️</button>
 
-    <h1>🚒 Claves CGBVP</h1>
-    <input type="text" id="busqueda" placeholder="Buscar código o descripción..." />
+    <header>
+        <div class="header-content">
+            <div class="top-bar">
+                <div class="logo">
+                    <span class="logo-icon">🚒</span>
+                    <h1>Claves CGBVP</h1>
+                </div>
+                <button class="theme-btn" id="theme-toggle" aria-label="Cambiar tema">
+                    </button>
+            </div>
 
-    <div id="filtros">
-        <button data-filtro="Todos">Todos</button>
-        <button data-filtro="Servicios">Servicios</button>
-        <button data-filtro="Emergencias">Emergencias</button>
-        <button data-filtro="Especiales">Especiales</button>
-        <button data-filtro="Jerarquías">Jerarquías</button>
-        <button data-filtro="Compañía">Compañía</button>
-        <button data-filtro="Nacional">Nacional</button>
-        <button data-filtro="Locales">Locales</button>
-        <button data-filtro="Personal">Personal</button>
-    </div>
-    
-    <div id="lista"></div>
+            <div class="search-box">
+                <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="text" id="searchInput" placeholder="Buscar código o descripción..." autocomplete="off">
+                <span class="shortcut-hint">Ctrl + F</span>
+            </div>
 
-    <footer id="firma-pie">
-        Página creada por Somer© 🔥
+            <div class="filters-container" id="filters">
+                </div>
+        </div>
+    </header>
+
+    <main class="grid-container" id="cardsGrid">
+        </main>
+
+    <footer>
+        Desarrollado por <strong>José Carranza</strong>
     </footer>
 
     <script>
-        // =======================================
-        // === 1. DATASET DE CLAVES ===
-        // =======================================
-        const claves = [
-            // SECCIÓN 10. SERVICIOS
+        // ==========================================
+        // DATASET
+        // ==========================================
+        const data = [
+             // SECCIÓN 10. SERVICIOS
             { "codigo": "10.01", "descripcion": "Adelante", "categoria": "Servicios" },
             { "codigo": "10.02", "descripcion": "Operador de radio identifíquese", "categoria": "Servicios" },
             { "codigo": "10.03", "descripcion": "Cambie frecuencia radial", "categoria": "Servicios" },
@@ -259,7 +280,6 @@
             { "codigo": "10.58", "descripcion": "Fin de estado de alerta", "categoria": "Servicios" },
             { "codigo": "10.59", "descripcion": "Guardia nocturna", "categoria": "Servicios" },
             { "codigo": "10.60", "descripcion": "Tipo de emergencia", "categoria": "Servicios" },
-
             // SECCIÓN 20. EMERGENCIAS
             { "codigo": "20.01", "descripcion": "Efectivo CGBVP accidentado", "categoria": "Emergencias" },
             { "codigo": "20.02", "descripcion": "Vehículo CGBVP accidentado", "categoria": "Emergencias" },
@@ -270,226 +290,184 @@
             { "codigo": "20.07", "descripcion": "Falsa Alarma", "categoria": "Emergencias" },
             { "codigo": "20.08", "descripcion": "Incendio vehicular", "categoria": "Emergencias" },
             { "codigo": "20.09", "descripcion": "Derrumbe", "categoria": "Emergencias" },
-            { "codigo": "20.10", "descripcion": "Derrame producto ¿?", "categoria": "Emergencias" },
-            { "codigo": "20.11", "descripcion": "Material peligros-indique", "categoria": "Emergencias" },
+            { "codigo": "20.10", "descripcion": "Derrame producto químico/peligroso", "categoria": "Emergencias" },
+            { "codigo": "20.11", "descripcion": "Material peligroso (HazMat)", "categoria": "Emergencias" },
             { "codigo": "20.12", "descripcion": "Fuga de gas", "categoria": "Emergencias" },
             { "codigo": "20.13", "descripcion": "Grifo/cisterna", "categoria": "Emergencias" },
-            { "codigo": "20.14", "descripcion": "Incendio/no apoyo", "categoria": "Emergencias" },
-            { "codigo": "20.15", "descripcion": "Incendio/1 unidad de apoyo", "categoria": "Emergencias" },
-            { "codigo": "20.16", "descripcion": "Incendio/2 unidad de apoyo", "categoria": "Emergencias" },
-            { "codigo": "20.17", "descripcion": "Incendio/+2 unidad de apoyo", "categoria": "Emergencias" },
-            { "codigo": "20.18", "descripcion": "Incendio/+3 unidad de apoyo", "categoria": "Emergencias" },
-            { "codigo": "20.19", "descripcion": "Catástrofe-orden 7.11-7.12", "categoria": "Emergencias" },
+            { "codigo": "20.14", "descripcion": "Incendio (sin apoyo)", "categoria": "Emergencias" },
+            { "codigo": "20.15", "descripcion": "Incendio (1 unidad apoyo)", "categoria": "Emergencias" },
+            { "codigo": "20.16", "descripcion": "Incendio (2 unidades apoyo)", "categoria": "Emergencias" },
+            { "codigo": "20.17", "descripcion": "Incendio (Código 3)", "categoria": "Emergencias" },
+            { "codigo": "20.18", "descripcion": "Incendio (Código 4)", "categoria": "Emergencias" },
+            { "codigo": "20.19", "descripcion": "Catástrofe", "categoria": "Emergencias" },
             { "codigo": "20.20", "descripcion": "Incendio forestal", "categoria": "Emergencias" },
             { "codigo": "20.21", "descripcion": "Incendio terreno baldío", "categoria": "Emergencias" },
             { "codigo": "20.22", "descripcion": "Corto circuito", "categoria": "Emergencias" },
             { "codigo": "20.23", "descripcion": "Accidente vehicular", "categoria": "Emergencias" },
-            { "codigo": "20.24", "descripcion": "Rescate /Atrapados", "categoria": "Emergencias" },
-            { "codigo": "20.25", "descripcion": "Huayco/Erupción volcánica", "categoria": "Emergencias" },
-            { "codigo": "20.26", "descripcion": "Evacuación/Fumigación", "categoria": "Emergencias" },
-            { "codigo": "20.27", "descripcion": "Poste eléctrico/aviso luminoso", "categoria": "Emergencias" },
-
-            // SECCIÓN 30. SERVICIOS ESPECIALES
-            { "codigo": "30.30", "descripcion": "Otro servicio/Servicio especial", "categoria": "Especiales" },
-            { "codigo": "30.31", "descripcion": "Practicas/charlas/simulacros/ceremonias", "categoria": "Especiales" },
-            { "codigo": "30.32", "descripcion": "Eventos/conciertos/festivales", "categoria": "Especiales" },
+            { "codigo": "20.24", "descripcion": "Rescate / Atrapados", "categoria": "Emergencias" },
+            { "codigo": "20.25", "descripcion": "Huayco / Erupción volcánica", "categoria": "Emergencias" },
+            { "codigo": "20.26", "descripcion": "Evacuación / Fumigación", "categoria": "Emergencias" },
+            { "codigo": "20.27", "descripcion": "Poste eléctrico / Aviso luminoso", "categoria": "Emergencias" },
+            // SECCIÓN 30. ESPECIALES
+            { "codigo": "30.30", "descripcion": "Otro servicio / Servicio especial", "categoria": "Especiales" },
+            { "codigo": "30.31", "descripcion": "Prácticas / Charlas / Simulacros", "categoria": "Especiales" },
+            { "codigo": "30.32", "descripcion": "Eventos / Conciertos / Festivales", "categoria": "Especiales" },
             { "codigo": "30.33", "descripcion": "Abrir puertas", "categoria": "Especiales" },
-            { "codigo": "30.34", "descripcion": "Colocar letreros/pancartas", "categoria": "Especiales" },
-            { "codigo": "30.35", "descripcion": "Velorio/Entierro", "categoria": "Especiales" },
-            { "codigo": "30.36", "descripcion": "Apoyos sociales (servicios de agua/vacunación)", "categoria": "Especiales" },
-
-            // SECCIÓN 3. JERARQUÍAS
+            { "codigo": "30.34", "descripcion": "Colocar letreros / pancartas", "categoria": "Especiales" },
+            { "codigo": "30.35", "descripcion": "Velorio / Entierro", "categoria": "Especiales" },
+            { "codigo": "30.36", "descripcion": "Apoyos sociales", "categoria": "Especiales" },
+            // JERARQUÍAS
             { "codigo": "3.01", "descripcion": "Brigadier General", "categoria": "Jerarquías" },
             { "codigo": "3.02", "descripcion": "Brigadier Mayor", "categoria": "Jerarquías" },
             { "codigo": "3.03", "descripcion": "Brigadier", "categoria": "Jerarquías" },
-            { "codigo": "3.04", "descripcion": "Teniente brigadier", "categoria": "Jerarquías" },
+            { "codigo": "3.04", "descripcion": "Teniente Brigadier", "categoria": "Jerarquías" },
             { "codigo": "3.05", "descripcion": "Capitán", "categoria": "Jerarquías" },
             { "codigo": "3.06", "descripcion": "Teniente", "categoria": "Jerarquías" },
-            { "codigo": "3.07", "descripcion": "sub. teniente", "categoria": "Jerarquías" },
+            { "codigo": "3.07", "descripcion": "Sub Teniente", "categoria": "Jerarquías" },
             { "codigo": "3.08", "descripcion": "Seccionario", "categoria": "Jerarquías" },
             { "codigo": "3.09", "descripcion": "Alumno", "categoria": "Jerarquías" },
-
-            // SECCIÓN 7. COMANDO REGIONAL (Nacional)
-            { "codigo": "7.11", "descripcion": "Comandante regional", "categoria": "Nacional" },
-            { "codigo": "7.12", "descripcion": "Vice Comandante regional", "categoria": "Nacional" },
-            { "codigo": "7.13", "descripcion": "Inspector regional", "categoria": "Nacional" },
-            { "codigo": "7.14", "descripcion": "Presidente del concejo de disciplina", "categoria": "Nacional" },
-            { "codigo": "7.16", "descripcion": "Jefe de brigada", "categoria": "Nacional" },
-            { "codigo": "7.17", "descripcion": "Jefe de personal", "categoria": "Nacional" },
-            { "codigo": "7.19", "descripcion": "Jefe de logística y mantenimiento", "categoria": "Nacional" },
-            { "codigo": "7.21", "descripcion": "Jefe de técnica", "categoria": "Nacional" },
-            { "codigo": "7.22", "descripcion": "Jefe de sanidad regional", "categoria": "Nacional" },
-            { "codigo": "7.25", "descripcion": "Jefe de RRPP", "categoria": "Nacional" },
-
-            // SECCIÓN 30. COMPAÑÍA (Jefaturas)
-            { "codigo": "30.11", "descripcion": "Primer jefe de compañía", "categoria": "Compañía" },
-            { "codigo": "33.12", "descripcion": "Segundo jefe de compañía", "categoria": "Compañía" },
-            { "codigo": "30.13", "descripcion": "Jefe de operaciones emergencias", "categoria": "Compañía" },
-            { "codigo": "30.14", "descripcion": "Jefe operación 1", "categoria": "Compañía" },
-            { "codigo": "30.15", "descripcion": "Jefe de operaciones 2", "categoria": "Compañía" },
-            { "codigo": "30.16", "descripcion": "Jefe de operaciones 3", "categoria": "Compañía" },
-            { "codigo": "30.17", "descripcion": "Jefe de administración", "categoria": "Compañía" },
-            { "codigo": "30.18", "descripcion": "Jefe de servicio", "categoria": "Compañía" },
-            { "codigo": "30.19", "descripcion": "Jefe de disciplina", "categoria": "Compañía" },
-            { "codigo": "30.22", "descripcion": "Medico de turno", "categoria": "Compañía" },
-
-            // SECCIÓN X. LOCALES
-            { "codigo": "X6", "descripcion": "Comando regional", "categoria": "Locales" },
-            { "codigo": "X7", "descripcion": "Cuartel de compañía", "categoria": "Locales" },
-            { "codigo": "X14", "descripcion": "Domicilio", "categoria": "Locales" },
-            { "codigo": "X15", "descripcion": "Centro de trabajo", "categoria": "Locales" },
-
-            // SECCIÓN 1. PERSONAL RENTADO (Personal)
+            // NACIONAL
+            { "codigo": "7.11", "descripcion": "Comandante Regional", "categoria": "Nacional" },
+            { "codigo": "7.12", "descripcion": "Vice Comandante Regional", "categoria": "Nacional" },
+            { "codigo": "7.16", "descripcion": "Jefe de Brigada", "categoria": "Nacional" },
+            { "codigo": "7.17", "descripcion": "Jefe de Personal", "categoria": "Nacional" },
+            { "codigo": "7.19", "descripcion": "Jefe de Logística", "categoria": "Nacional" },
+            { "codigo": "7.21", "descripcion": "Jefe de Técnica", "categoria": "Nacional" },
+            // COMPAÑÍA
+            { "codigo": "30.11", "descripcion": "Primer Jefe de Compañía", "categoria": "Compañía" },
+            { "codigo": "30.12", "descripcion": "Segundo Jefe de Compañía", "categoria": "Compañía" },
+            { "codigo": "30.13", "descripcion": "Jefe de Operaciones", "categoria": "Compañía" },
+            { "codigo": "30.17", "descripcion": "Jefe de Administración", "categoria": "Compañía" },
+            // LOCALES
+            { "codigo": "X-6", "descripcion": "Comando Regional", "categoria": "Locales" },
+            { "codigo": "X-7", "descripcion": "Cuartel de Compañía", "categoria": "Locales" },
+            { "codigo": "X-14", "descripcion": "Domicilio", "categoria": "Locales" },
+            { "codigo": "X-15", "descripcion": "Centro de Trabajo", "categoria": "Locales" },
+            // PERSONAL
             { "codigo": "1.01", "descripcion": "Contador", "categoria": "Personal" },
             { "codigo": "1.02", "descripcion": "Secretaria", "categoria": "Personal" },
-            { "codigo": "1.03", "descripcion": "Auxiliar de secretaria", "categoria": "Personal" },
-            { "codigo": "1.04", "descripcion": "Chofer cuartelero", "categoria": "Personal" },
-            { "codigo": "1.05", "descripcion": "Cuartelero", "categoria": "Personal" },
-            { "codigo": "1.06", "descripcion": "Operador de radio", "categoria": "Personal" },
-            { "codigo": "1.07", "descripcion": "Obrero", "categoria": "Personal" },
-            { "codigo": "10.08", "descripcion": "Conserje", "categoria": "Personal" },
-            { "codigo": "1.09", "descripcion": "Practicante", "categoria": "Personal" }
+            { "codigo": "1.04", "descripcion": "Chofer Cuartelero", "categoria": "Personal" },
+            { "codigo": "1.06", "descripcion": "Operador de Radio", "categoria": "Personal" }
         ];
 
+        // Categorías
+        const categorias = ["Todos", "Servicios", "Emergencias", "Especiales", "Jerarquías", "Compañía", "Nacional", "Locales", "Personal"];
 
-        // =======================================
-        // === 2. FUNCIONES DE LÓGICA (JavaScript) ===
-        // =======================================
-        
-        // Obtener elementos del DOM
-        const input = document.getElementById("busqueda");
-        const lista = document.getElementById("lista");
-        const contenedorFiltros = document.getElementById("filtros");
-        const toggleButton = document.getElementById("toggle-dark-mode");
+        // ==========================================
+        // LÓGICA DE INTERFAZ
+        // ==========================================
+        const grid = document.getElementById('cardsGrid');
+        const searchInput = document.getElementById('searchInput');
+        const filtersContainer = document.getElementById('filters');
+        const themeBtn = document.getElementById('theme-toggle');
 
-        let categoriaActiva = "Todos";
+        let activeCategory = "Todos";
 
-        // Función para dibujar la lista
-        function mostrarClaves(filtradas) {
-            lista.innerHTML = "";
-            filtradas.forEach(c => {
-                const div = document.createElement("div");
-                div.classList.add("item");
-                
-                div.innerHTML = `
-                    <div class="item-header">
-                        <span class="codigo">${c.codigo}</span>
-                        <span class="categoria-tag">${c.categoria}</span>
+        // --- Renderizar Filtros ---
+        function renderFilters() {
+            filtersContainer.innerHTML = categorias.map(cat => 
+                `<button class="filter-pill ${cat === 'Todos' ? 'active' : ''}" 
+                  onclick="setCategory('${cat}')"
+                >${cat}</button>`
+            ).join('');
+        }
+
+        // --- Renderizar Tarjetas ---
+        function renderCards(list) {
+            grid.innerHTML = "";
+            
+            if(list.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <div style="font-size: 3rem; margin-bottom: 10px;">🔍</div>
+                        <h3>No se encontraron resultados</h3>
+                        <p>Intenta con otro término de búsqueda.</p>
+                    </div>`;
+                return;
+            }
+
+            list.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="card-header">
+                        <div class="code-badge">${item.codigo}</div>
                     </div>
-                    <span class="descripcion">${c.descripcion}</span>
+                    <div>
+                        <div class="desc-text">${item.descripcion}</div>
+                        <div class="category-text">${item.categoria}</div>
+                    </div>
                 `;
-                lista.appendChild(div);
+                grid.appendChild(card);
             });
         }
 
-        // Función para normalizar texto (eliminar tildes y convertir a minúsculas)
-        function normalizar(texto) {
-            // Elimina tildes (acentos) y otros diacríticos
-            return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-        }
-
-        // Función para guardar o eliminar la preferencia de tema en localStorage
-        function guardarPreferencia(esOscuro) {
-            if (esOscuro) {
-                localStorage.setItem('tema', 'oscuro');
-            } else {
-                localStorage.removeItem('tema');
-            }
-        }
-
-        // Función maestra de filtrado por categoría
-        function filtrarPorCategoria(categoria) {
-            let listaResultado = claves;
-
-            if (categoria !== "Todos") {
-                listaResultado = claves.filter(clave => clave.categoria === categoria);
-            }
-
-            mostrarClaves(listaResultado);
+        // --- Filtrado General ---
+        function filterData() {
+            const query = searchInput.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
             
-            // Actualizar el estado 'active' de los botones de filtro
-            document.querySelectorAll('#filtros button').forEach(btn => {
-                btn.classList.remove('active');
+            const filtered = data.filter(item => {
+                const matchesCategory = activeCategory === "Todos" || item.categoria === activeCategory;
+                const matchesSearch = item.codigo.toLowerCase().includes(query) || 
+                                      item.descripcion.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(query);
+                return matchesCategory && matchesSearch;
             });
-            document.querySelector(`[data-filtro="${categoria}"]`).classList.add('active');
-            
-            categoriaActiva = categoria; 
+
+            renderCards(filtered);
         }
 
+        // --- Controladores ---
+        window.setCategory = (cat) => {
+            activeCategory = cat;
+            document.querySelectorAll('.filter-pill').forEach(btn => {
+                btn.classList.toggle('active', btn.innerText === cat);
+            });
+            filterData();
+        };
 
-        // =======================================
-        // === 3. EVENT LISTENERS (Interactividad) ===
-        // =======================================
+        searchInput.addEventListener('input', filterData);
 
-        // Evento para el filtro por botón (CLICK)
-        contenedorFiltros.addEventListener("click", (evento) => {
-            if (evento.target.tagName === 'BUTTON' && evento.target.dataset.filtro) {
-                const categoriaSeleccionada = evento.target.dataset.filtro;
-                input.value = ""; // Limpiar búsqueda al cambiar de categoría
-                filtrarPorCategoria(categoriaSeleccionada);
+        // --- ATAJO CTRL + F ---
+        document.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+                e.preventDefault(); 
+                searchInput.focus();
+                searchInput.select(); 
             }
         });
 
-        // Evento para la búsqueda por texto (INPUT)
-        input.addEventListener("input", () => {
-            const texto = normalizar(input.value.toLowerCase());
+        // --- MODO OSCURO ---
+        const sunIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`;
+        const moonIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
 
-            // 6.1. Determinar en qué subconjunto buscar (filtrar por categoría activa)
-            let listaBase = claves;
-            if (categoriaActiva !== "Todos") {
-                listaBase = claves.filter(clave => clave.categoria === categoriaActiva);
-            }
-
-            // 6.2. Aplicar el filtro de texto
-            const filtradasPorTexto = listaBase.filter(c =>
-                normalizar(c.descripcion.toLowerCase()).includes(texto) ||
-                normalizar(c.codigo).includes(texto)
-            );
-
-            mostrarClaves(filtradasPorTexto);
-        });
-
-        // Evento para alternar el modo oscuro/claro
-        toggleButton.addEventListener("click", () => {
-            document.body.classList.toggle("dark-mode");
-            
-            const esOscuro = document.body.classList.contains("dark-mode");
-            
-            // Guardamos la preferencia y cambiamos el icono
-            guardarPreferencia(esOscuro);
-
-            if (esOscuro) {
-                toggleButton.textContent = "🌙";
+        function toggleTheme() {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            if (isDark) {
+                document.documentElement.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+                themeBtn.innerHTML = moonIcon;
             } else {
-                toggleButton.textContent = "☀️";
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                themeBtn.innerHTML = sunIcon;
             }
-        });
-
-        // Evento para enfocar el input con CTRL+F
-        document.addEventListener('keydown', (event) => {
-            if ((event.ctrlKey || event.metaKey) && event.key === 'f') {
-                event.preventDefault();
-                input.focus();
-                input.select();
-            }
-        });
-
-
-        // =======================================
-        // === 4. INICIALIZACIÓN ===
-        // =======================================
-
-        // Cargar la preferencia de tema al abrir la página (persistencia)
-        if (localStorage.getItem('tema') === 'oscuro') {
-            document.body.classList.add('dark-mode');
-            toggleButton.textContent = "🌙";
-        } else {
-            document.body.classList.remove('dark-mode');
-            toggleButton.textContent = "☀️";
         }
 
-        // Mostrar la lista completa al cargar la página
-        filtrarPorCategoria("Todos");
+        themeBtn.addEventListener('click', toggleTheme);
+        
+        // --- INICIALIZACIÓN ---
+        (function init() {
+            renderFilters();
+            renderCards(data);
+            
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeBtn.innerHTML = sunIcon;
+            } else {
+                themeBtn.innerHTML = moonIcon;
+            }
+        })();
 
     </script>
 </body>
